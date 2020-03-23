@@ -21,10 +21,25 @@ def register():
     return "", 204
 
 
-@app.route('/check')
-def check():
+@app.route('/login')
+def login():
     username = request.args.get('username', None)
-    result = User.query.filter_by(username=username).first()
-    if result:
+    password = request.args.get('password', None)
+    if not username:
+        response = open("./templates/login.html").read()%("")
+        return response, 404
+    elif not password:
+        response = open("./templates/login.html").read()%(username)
+        return response, 404
+    if check_user(username, password):
+        # TODO: add session
         return "ok", 200
-    return "error", 404
+    response = open("./templates/login.html").read()%(username)
+    return response
+
+
+def check_user(username, password):
+    result = User.query.filter_by(username=username).first()
+    if result and password:
+        return result.check_password(password)
+    return False

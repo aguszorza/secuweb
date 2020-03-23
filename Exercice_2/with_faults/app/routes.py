@@ -46,9 +46,20 @@ def login():
         return response, 404
     if check_user(username, password):
         # TODO: add session
-        return "ok", 200
+        return redirect('/welcome')
     response = open("./templates/login.html").read()%(username)
     return response, 404
+
+
+@app.route('/welcome')
+def welcome():
+    response = open("./templates/welcome.html").read()
+    return response, 200
+
+
+@app.route('/logout')
+def logout():
+    return redirect('/login')
 
 
 def check_user(username, password):

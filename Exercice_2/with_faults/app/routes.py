@@ -1,17 +1,13 @@
-from app import app, db
-from app.models import User
+from app import app
 from flask import request, redirect
+import _sqlite3
+
 
 REGISTER_ERROR = {'in_use': 'The username or the email is already in use',
                   'empty_fields': 'You must fill all the fields'
                   }
 
 LOGIN_ERROR = "Username or password incorrect"
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Hello, World!"
 
 
 @app.route('/register', methods=["GET"])
@@ -64,18 +60,20 @@ def logout():
 
 
 def check_user(username, password):
-    result = User.query.filter_by(username=username).first()
-    if result and password:
-        return result.check_password(password)
+    db2 = _sqlite3.connect("./app.db")
+    sql = "SELECT * FROM user WHERE username='%s' and password = '%s'"
+    result = db2.execute(sql%(username, password)).fetchall()
+    if result:
+        return True
     return False
 
 
 def save_user(email, username, password):
     try:
-        user = User(username=username, email=email)
-        user.set_password(password)
-        db.session.add(user)
-        db.session.commit()
+        db2 = _sqlite3.connect("./app.db")
+        sql = "INSERT INTO user(username, email, password) VALUES('%s', '%s', '%s')"
+        db2.execute(sql%(username, email, password)).fetchall()
+        db2.commit()
         return True
     except Exception:
         return False

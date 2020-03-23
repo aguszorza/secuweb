@@ -1,6 +1,6 @@
-from app import app
+from app import app, db
 from flask import request, redirect
-import _sqlite3
+from app.models import User
 
 
 REGISTER_ERROR = {'in_use': 'The username or the email is already in use',
@@ -60,9 +60,11 @@ def logout():
 
 
 def check_user(username, password):
-    db2 = _sqlite3.connect("./app.db")
-    sql = "SELECT * FROM user WHERE username='%s' and password = '%s'"
-    result = db2.execute(sql%(username, password)).fetchall()
+    try:
+        sql = "SELECT * FROM user WHERE username='%s' and password='%s'"
+        result = db.engine.execute(sql%(username, password)).first()
+    except Exception:
+        return False
     if result:
         return True
     return False
@@ -70,10 +72,9 @@ def check_user(username, password):
 
 def save_user(email, username, password):
     try:
-        db2 = _sqlite3.connect("./app.db")
-        sql = "INSERT INTO user(username, email, password) VALUES('%s', '%s', '%s')"
-        db2.execute(sql%(username, email, password)).fetchall()
-        db2.commit()
+        user = User(username=username, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
         return True
     except Exception:
         return False

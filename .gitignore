@@ -1,1 +1,8 @@
 /.idea
+
+*.pyc
+*.pyo
+*.env
+
+*venv/
+*migrations/

@@ -6,6 +6,7 @@ REGISTER_ERROR = {'in_use': 'The username or the email is already in use',
                   'empty_fields': 'You must fill all the fields'
                   }
 
+LOGIN_ERROR = "Username or password incorrect"
 
 @app.route('/')
 @app.route('/index')
@@ -39,15 +40,15 @@ def login():
     username = request.args.get('username', None)
     password = request.args.get('password', None)
     if not username:
-        response = open("./templates/login.html").read()%("")
+        response = open("./templates/login.html").read()%("", "")
         return response
     elif not password:
-        response = open("./templates/login.html").read()%(username)
+        response = open("./templates/login.html").read()%(username, "")
         return response, 404
     if check_user(username, password):
         # TODO: add session
         return redirect('/welcome')
-    response = open("./templates/login.html").read()%(username)
+    response = open("./templates/login.html").read()%(username, LOGIN_ERROR)
     return response, 404
 
 

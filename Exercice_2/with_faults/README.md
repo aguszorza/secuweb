@@ -29,7 +29,8 @@ the text `"> <script>alert("XSS")</script>` and you try to login/register yo wil
 * In the login form, the field username is vulnerable to sql injection. You can add for example the text `' or '1'='1'--`
 or the text `username'--` (in this case username should be a valid username) and you would be able to login regardless
 of the password you enter (the password can not be empty). It is necessary that there is at least one user in the database
-for this to work since otherwise the request will not return any results.
+for this to work since otherwise the request will not return any results. In the password field we can add also `' or '1'='1'--`
+and it will log in.
 
 * In the register form, the field password is vulnerable to sql injection. You can add for example the text
 `a'); delete from user where username='user1';--` and you would delete the user whose username is user1 from the database.

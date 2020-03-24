@@ -1,7 +1,8 @@
-from app import app, db
+from app import app
 from flask import request, redirect
 from app.models import User
 
+import _sqlite3
 
 REGISTER_ERROR = {'in_use': 'The username or the email is already in use',
                   'empty_fields': 'You must fill all the fields'
@@ -62,7 +63,8 @@ def logout():
 def check_user(username, password):
     try:
         sql = "SELECT * FROM user WHERE username='%s' and password='%s'"
-        result = db.engine.execute(sql%(username, password)).first()
+        db2 = _sqlite3.connect("./app.db")
+        result = db2.execute(sql%(username, password)).fetchone()
     except Exception:
         return False
     if result:
@@ -72,9 +74,10 @@ def check_user(username, password):
 
 def save_user(email, username, password):
     try:
-        user = User(username=username, email=email, password=password)
-        db.session.add(user)
-        db.session.commit()
+        db2 = _sqlite3.connect("./app.db")
+        sql = "INSERT INTO user(username, email, password) VALUES('%s', '%s', '%s')"
+        db2.executescript(sql%(username, email, password))
+        db2.commit()
         return True
     except Exception:
         return False

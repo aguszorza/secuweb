@@ -31,15 +31,17 @@ or the text `username'--` (in this case username should be a valid username) and
 of the password you enter (the password can not be empty). It is necessary that there is at least one user in the database
 for this to work since otherwise the request will not return any results.
 
+* In the register form, the field password is vulnerable to sql injection. You can add for example the text
+`a'); delete from user where username='user1';--` and you would delete the user whose username is user1 from the database.
+
 * The password is saved as a text instead of being a hash.
 
 ## Comments
 
-* We could not find a way to execute more than one sql request with a single call (try to enter `a'; SELECT * FROM user;--`
-  causing the original select and the new one to run). This is because the libraries found
-  (sqlalchemy and sqlite3) did not allow such operations. 
+* In the code we have two database libraries (sqlite3 and SqlAlchemy) because SqlAlchemy allows us to create the database
+and the migrations of the new tables in an easy way. SqlAlchemy is used only for that to avoid setting and creating the 
+database by hand. For all the requests (login and register) the program uses sqlite3 when it interacts with the database.
 
 * The password is not save as a hash because we must verify if the password sent is correct. To do this we must first
-  obtain the user and then verify with a function whether the password is correct or not. As we could not perform several
-  sql commands at the same time (explained in the previous point) we could not save the password as a hash since otherwise
-  it would not be possible to have such a sql vulnerability that we have (login without having a username and password)
+  obtain the user and then verify with a function whether the password is correct or not. If we save the password as a
+  hash we would not be able to have an sql vulnerability in the login form.

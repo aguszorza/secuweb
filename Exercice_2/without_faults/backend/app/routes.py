@@ -84,3 +84,14 @@ def save_user(email, username, password):
         return True
     except Exception:
         return False
+
+      
+def create_error(error_message):
+    success = false
+    response ={
+        'success':success,
+        'error':{
+            'message':errror_message
+        },
+    }
+    return response

@@ -1,6 +1,7 @@
 from app import app
 from flask import request, redirect
 from app.models import User
+from flask_login import current_user, login_user, logout_user, login_required
 
 import _sqlite3
 
@@ -34,6 +35,8 @@ def register():
 
 @app.route('/login')
 def login():
+    if current_user.is_authenticated:
+        return redirect('/')
     username = request.args.get('username', None)
     password = request.args.get('password', None)
     if not username:
@@ -42,14 +45,16 @@ def login():
     elif not password:
         response = open("./templates/login.html").read()%(username, "")
         return response, 404
-    if check_user(username, password):
-        # TODO: add session
-        return redirect('/welcome')
+    user = get_user(username, password)
+    if user:
+        login_user(user)
+        return redirect('/')
     response = open("./templates/login.html").read()%(username, LOGIN_ERROR)
     return response, 404
 
 
-@app.route('/welcome')
+@app.route('/')
+@login_required
 def welcome():
     response = open("./templates/welcome.html").read()
     return response, 200
@@ -57,19 +62,21 @@ def welcome():
 
 @app.route('/logout')
 def logout():
+    logout_user()
     return redirect('/login')
 
 
-def check_user(username, password):
+def get_user(username, password):
     try:
         sql = "SELECT * FROM user WHERE username='%s' and password='%s'"
         db2 = _sqlite3.connect("./app.db")
         result = db2.execute(sql%(username, password)).fetchone()
     except Exception:
-        return False
+        return None
     if result:
-        return True
-    return False
+        user = User(id=result[0], username=result[1], email=result[2], password=result[3])
+        return user
+    return None
 
 
 def save_user(email, username, password):

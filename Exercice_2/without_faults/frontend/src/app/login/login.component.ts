@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {log} from 'util';
+import { LoginService } from '../services/login.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   password = '';
   invalid = false;
 
-  constructor() { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +25,14 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.invalid = false;
-    log('Hello Login');
+    this.loginService.login(this.username, this.password)
+      .subscribe(data => {
+        log('logged');
+        // this.router.navigate(['']);
+      }, error => {
+        this.invalid = true;
+        this.password = '';
+      });
   }
 
 }

@@ -1,7 +1,6 @@
 from app import app
 from flask import request,jsonify
 from app.models import User
-from flask_login import current_user, login_user, logout_user, login_required
 
 import _sqlite3
 

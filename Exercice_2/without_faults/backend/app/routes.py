@@ -11,8 +11,7 @@ LOGIN_ERROR = "Username or password incorrect"
 
 @app.route('/')
 @app.route('/index')
-def inde
-):
+def index():
     return "Hello, World!"
 
 

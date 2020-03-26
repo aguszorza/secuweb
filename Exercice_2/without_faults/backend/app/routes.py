@@ -45,11 +45,9 @@ def login():
         response = open("./templates/login.html").read()%(username, "")
         return jsonify(create_error(LOGIN_ERROR)),404
     user = get_user(username, password)
-    if user:
-        login_user(user)
-        return True
-    response = open("./templates/login.html").read()%(username, LOGIN_ERROR)
-    return False, 404
+    if user: 
+        return "" , 204
+    return jsonify(create_error(LOGIN_ERROR)),404
 
 
 @app.route('/')

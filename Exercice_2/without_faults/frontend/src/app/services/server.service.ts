@@ -15,7 +15,8 @@ export class ServerService {
   constructor(private http: HttpClient) { }
 
   get<T>(extension, params: HttpParams = new HttpParams()) {
-    return this.http.get<T>(this.baseUrl + extension, { params }).pipe(catchError(this.handleError));
+    return this.http.get<T>(this.baseUrl + extension,
+      { params, withCredentials: true }).pipe(catchError(this.handleError));
   }
 
   post<T>(extension, data = {}) {

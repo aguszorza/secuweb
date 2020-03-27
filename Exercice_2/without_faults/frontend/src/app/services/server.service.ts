@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
+
 import { environment } from '../../environments/environment';
 
 
@@ -20,7 +21,8 @@ export class ServerService {
   }
 
   post<T>(extension, data = {}) {
-    return this.http.post<T>(this.baseUrl + extension, data).pipe(catchError(this.handleError));
+    return this.http.post<T>(this.baseUrl + extension, data,
+      { withCredentials: true }).pipe(catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) {

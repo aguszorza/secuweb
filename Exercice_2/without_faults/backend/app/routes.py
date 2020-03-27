@@ -12,7 +12,10 @@ LOGIN_ERROR = "Username or password incorrect"
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    response = {
+        'content': 'You conected with our service. We are making some changes so the page is not available for the moment.',
+    }
+    return jsonify(response), 200
 
 
 @app.route('/login')

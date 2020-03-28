@@ -10,7 +10,7 @@ import { MyLocalStorageService } from '../services/my-local-storage.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  title = 'Welcome';
+  title = 'Welcome ';
   content = '';
 
   constructor(private homeService: HomeService, private router: Router,
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.homeService.home().subscribe((data: any) => {
+      this.title += data.username;
       this.content = data.content;
     }, error => {
       this.localStorage.logOut();

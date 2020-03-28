@@ -1,7 +1,7 @@
 from app import app, db
 from flask import request, jsonify
 from app.models import User
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 REGISTER_ERROR = {'in_use': 'The username or the email is already in use',
                   'empty_fields': 'You must fill all the fields'
@@ -15,6 +15,7 @@ LOGIN_ERROR = "Username or password incorrect"
 @login_required
 def index():
     response = {
+        'username': current_user.username,
         'content': 'You conected with our service. We are making some changes so the page is not available for the moment.',
     }
     return jsonify(response), 200

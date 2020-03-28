@@ -55,7 +55,8 @@ def login():
 @app.route('/')
 @login_required
 def welcome():
-    response = open("./templates/welcome.html").read()
+    print(current_user.username)
+    response = open("./templates/welcome.html").read()%(current_user.username)
     return response, 200
 
 

@@ -19,7 +19,7 @@ redirected to /welcome
 * /register: You will see a form asking for the username, the email and the password. If the user and email are new you
 will be registered and redirected to /login
 
-* /welcome: A page without a special function. It has a logout link that will redirect you to /login
+* /: A page without a special function. It has a logout link that will redirect you to /login
 
 ## Vulnerabilities
 
@@ -39,7 +39,7 @@ with the text `"> <script>alert("XSS")</script>`, every time you refresh the pag
 
 ## Comments
 
-* There is another branch with another sql injection vulnerability in which you can code like `a'; DELETE FROM user WHERE username='user1';--` 
+* There is another branch with another sql injection vulnerability in which you can code like `a'); DELETE FROM user WHERE username='user1';--` 
 
 * The password is not save as a hash because we must verify if the password sent is correct. To do this we must first
   obtain the user and then verify with a function whether the password is correct or not. As we could not perform several

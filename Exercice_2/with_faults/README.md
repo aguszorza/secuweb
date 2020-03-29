@@ -35,6 +35,9 @@ and it will log in.
 * In the register form, the field password is vulnerable to sql injection. You can add for example the text
 `a'); delete from user where username='user1';--` and you would delete the user whose username is user1 from the database.
 
+* In the home page, the title shows the user's username. So it is vulnerable to XSS attack. If you register for example
+with the text `"> <script>alert("XSS")</script>`, every time you refresh the page, you will get an alert. 
+
 * The password is saved as a text instead of being a hash.
 
 ## Comments

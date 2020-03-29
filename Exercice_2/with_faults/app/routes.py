@@ -13,6 +13,8 @@ LOGIN_ERROR = "Username or password incorrect"
 
 @app.route('/register', methods=["GET"])
 def get_register_form():
+    if current_user.is_authenticated:
+        return redirect('/')
     response = open("./templates/register.html").read()%("", "", "")
     return response
 
@@ -55,7 +57,6 @@ def login():
 @app.route('/')
 @login_required
 def welcome():
-    print(current_user.username)
     response = open("./templates/welcome.html").read()%(current_user.username)
     return response, 200
 

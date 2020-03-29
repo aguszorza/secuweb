@@ -20,4 +20,4 @@ Dans ce petit programme, on a pu trouver certains défauts.
  local. Comme le donné retourné est le output de la commande, l'attaquant peut effectuer une analyse de l'ordinateur 
  (peut utiliser pwd et se déplacer de l'adresse avec cd, etc.)
 
-3. 
+3. La bibliothèque md5 est obsolète et celle recommandée doit être utilisée. Md5 est également vulnérable (une collision de hash a été détectée)

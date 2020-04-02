@@ -1,6 +1,6 @@
 # Application with faults
 
-##Setup
+## Setup
 
 * Run: `python3 -m venv venv`
 * Run: `source venv/bin/activate` 
@@ -19,7 +19,7 @@ redirected to /welcome
 * /register: You will see a form asking for the username, the email and the password. If the user and email are new you
 will be registered and redirected to /login
 
-* /welcome: A page without a special function. It has a logout link that will redirect you to /login
+* /: A page without a special function. It has a logout link that will redirect you to /login
 
 ## Vulnerabilities
 

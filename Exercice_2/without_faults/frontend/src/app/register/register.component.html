@@ -5,6 +5,10 @@
   <div class="w-25">
     <div class="form-group">
 
+      <input type="email" class="form-control mt-3"
+             placeholder="Email" maxlength="50"
+             [(ngModel)]="email"/>
+
       <input type="text" class="form-control mt-3"
              placeholder="Username" maxlength="50"
              [(ngModel)]="username"/>
@@ -17,13 +21,13 @@
 </div>
 
 <div *ngIf="invalid" class="text-danger text-center">
-  <p class="error">Username or password incorrect</p>
+  <p class="error">The username or the email is already in use</p>
 </div>
 
 <div class="text-center">
-  <a id="register" routerLink="/register">Register</a>
+  <a id="login" routerLink="/login">Login</a>
 </div>
 
 <div class="d-flex justify-content-center mt-3">
-  <button class="btn btn-primary w-25 custom-style" [disabled]="isInvalid()" (click)="login()">Login</button>
+  <button class="btn btn-primary w-25 custom-style" [disabled]="isInvalid()" (click)="register()">Register</button>
 </div>
